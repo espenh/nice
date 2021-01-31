@@ -55,11 +55,19 @@ class Lights:
         self.lastFrame = frame
         await self.t.send_frame_2(frame)
 
-    async def turnOnSingleLight(self, index: int, color: RgbColor):
+    async def turnOnOnlySingleLight(self, index: int, color: RgbColor):
         frame = dark(400)
-
         frame[index] = colorTypeToColor[color]
+        await self.sendFrame(frame)
 
+    async def turnOnSingleLight(self, index: int, color: RgbColor):
+        frame = None
+        if self.lastFrame is not None:
+            frame = self.lastFrame.copy()
+        else:
+            frame = dark(ledCount)
+            
+        frame[index] = colorTypeToColor[color]
         await self.sendFrame(frame)
 
     async def close(self):

@@ -1,7 +1,7 @@
 import asyncio
 import time
 import random
-from ttls.client import Twinkly, TwinklyFrame
+from client_mods import Twinkly, TwinklyFrame
 
 DARK = (0x00, 0x00, 0x00, 0x00)
 RED = (0x33, 0xff, 0x00, 0x00)
