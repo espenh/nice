@@ -15,6 +15,12 @@ async def captureBaseline():
     camera.takeBaseline()
     return {"baseline": "yes"}
 
+@app.get("/capture/baseline/get")
+async def captureBaseline():
+    baselineAsB64 = camera.getBaseLineAsBase64()
+    return {"baseline": baselineAsB64}
+
+
 
 @app.get("/capture/rgb/")
 async def captureRgb():

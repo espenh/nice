@@ -42,6 +42,7 @@ class Lights:
             await self.t.set_mode('rt')
 
     async def reset(self):
+        await self.t.set_mode('rt')
         await self.sendFrame(blankFrame)
 
     async def keepAlive(self):
@@ -49,6 +50,7 @@ class Lights:
         if self.lastFrame is None:
             return
 
+        print("lights-keepAlive")
         await self.sendFrame(self.lastFrame)
 
     async def sendFrame(self, frame: TwinklyFrame):
@@ -69,6 +71,20 @@ class Lights:
             
         frame[index] = colorTypeToColor[color]
         await self.sendFrame(frame)
+    
+    async def turnOnRGBLights(self, redIndex:int=None, greenIndex:int=None, blueIndex:int=None):
+        frame = dark(400)
+        
+        if(redIndex is not None):
+            frame[redIndex] = RED
+        
+        if(greenIndex is not None):
+            frame[greenIndex] = GREEN
+        
+        if(blueIndex is not None):
+            frame[blueIndex] = BLUE
+        
+        await self.sendFrame(frame)
 
     async def close(self):
         await self.t.close()
@@ -78,3 +94,7 @@ class Lights:
             print("going")
             await self.turnOnSingleLight(random.randint(0, 399), RgbColor(random.randint(0, 2)))
             await asyncio.sleep(35)
+
+    async def getLedInfo(self):
+        details = await self.t.get_details()
+        return details

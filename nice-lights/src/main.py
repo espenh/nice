@@ -24,6 +24,14 @@ async def lightsSingle(index: int, color: int):
     await lights.turnOnSingleLight(index, RgbColor(color))
     return {"index": index, "color": RgbColor(color), "light": True}
 
+@app.get("/lights/rgb/")
+async def lightsRgb(redIndex: int = None, greenIndex: int = None, blueIndex: int= None):
+    await lights.turnOnRGBLights(redIndex, greenIndex, blueIndex)
+    return {"redIndex": redIndex, "greenIndex": greenIndex, "blueIndex": blueIndex}
+
+@app.get("/lights/info/")
+async def lightsInfo():
+    return await lights.getLedInfo()
 
 async def lights_keepalive():
     while True:

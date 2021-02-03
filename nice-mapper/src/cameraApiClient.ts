@@ -9,8 +9,14 @@ export class CameraApiClient {
         return rgbData;
     }
 
-    public async setBaseline(){
+    public async setBaseline() {
         await fetch(`${this.baseUrl}/capture/baseline/`);
+    }
+
+    public async getBaseline() {
+        const response = await fetch(`${this.baseUrl}/capture/baseline/get/`);
+        const baseLine = await response.json() as IBaselineResponse;
+        return baseLine;
     }
 }
 
@@ -18,12 +24,21 @@ export type CaptureRgbResponse = CaptureRgbResponseSuccess | CaptureRgbResponseF
 
 export interface CaptureRgbResponseSuccess {
     result: "success";
-    red: {
-        x: number,
-        y: number
-    };
+    red: I2DColorPosition | null;
+    green: I2DColorPosition | null;
+    blue: I2DColorPosition | null;
+}
+
+export interface I2DColorPosition {
+    x: number;
+    y: number;
 }
 
 export interface CaptureRgbResponseFail {
     result: "fail";
+}
+
+
+export interface IBaselineResponse {
+    baseline: string;
 }
