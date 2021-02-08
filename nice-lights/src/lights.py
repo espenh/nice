@@ -5,7 +5,7 @@ import datetime
 import time
 from client_mods import Twinkly, TwinklyFrame
 from enum import Enum
-from somecode import dark, fromx, RED
+from scenarios.somecode import dark, fromx, RED
 
 ledCount = 400
 blankFrame = dark(ledCount)

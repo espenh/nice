@@ -3,7 +3,7 @@ import numpy as np
 import time
 import base64
 from imageUtils import apply_brightness_contrast
-
+from threadedVideoCapture import ThreadedVideoCapture
 
 class Camera:
     def __init__(self):
@@ -15,12 +15,17 @@ class Camera:
             return
 
         print("creating capture")
-        self.cap = cv2.VideoCapture(1)
+        #self.cap = cv2.VideoCapture(1)
+        self.cap = ThreadedVideoCapture("rtsp://admin:rosenborg@192.168.10.177:554/h264Preview_01_main")
         self.takeBaseline()
         self.isInitialized = True
 
+    def adjustForLatency(self):
+        time.sleep(2.5)
+
     def capture(self):
-        _, frame = self.cap.read()
+        self.adjustForLatency()
+        frame = self.cap.read()
         return frame
 
     def takeBaseline(self):

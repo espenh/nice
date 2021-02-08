@@ -4,6 +4,7 @@ import { DateTime } from "luxon";
 import { CameraApiClient } from "./cameraApiClient";
 import { LightsApiClient } from "./lightsApiClient";
 import { jsonLog } from "./utils";
+import * as chalk from "chalk";
 
 console.log("nice-mapper started");
 
@@ -74,15 +75,18 @@ async function runMapping() {
             const checks = [
                 {
                     index: redIndex,
-                    capture: capturedRgb.red
+                    capture: capturedRgb.red,
+                    outputColor: chalk.red
                 },
                 {
                     index: greenIndex,
-                    capture: capturedRgb.green
+                    capture: capturedRgb.green,
+                    outputColor: chalk.green
                 },
                 {
                     index: blueIndex,
-                    capture: capturedRgb.blue
+                    capture: capturedRgb.blue,
+                    outputColor: chalk.blue
                 }
             ];
 
@@ -92,6 +96,8 @@ async function runMapping() {
                         index: check.index,
                         position: check.capture
                     });
+
+                    console.log(`Found led at: (${check.outputColor(check.capture.x)},${check.outputColor(check.capture.y)})`)
                 } else {
                     unknownIndexes.push(check.index);
                 }
