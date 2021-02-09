@@ -1,7 +1,7 @@
 import cv2
 
-from camera import Camera
-camera = Camera()
+from camera_rgb import CameraRgb
+camera = CameraRgb()
 camera.initialize()
 points =camera.captureRgb()
 print(points)

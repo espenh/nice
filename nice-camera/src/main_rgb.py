@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-from camera import Camera
+from camera_rgb import CameraRgb
 
 app = FastAPI()
-camera = Camera()
+camera = CameraRgb()
 
 
 @app.get("/")
@@ -11,22 +11,19 @@ async def root():
 
 
 @app.get("/capture/baseline")
-async def captureBaseline():
+async def baseline_capture():
     camera.takeBaseline()
     return {"baseline": "yes"}
 
 @app.get("/capture/baseline/get")
-async def captureBaseline():
+async def baseline_get():
     baselineAsB64 = camera.getBaseLineAsBase64()
     return {"baseline": baselineAsB64}
 
-
-
 @app.get("/capture/rgb/")
-async def captureRgb():
+async def capture_rgb():
     capture = camera.captureRgb()
     return capture
-
 
 @app.on_event("startup")
 async def startup_event():

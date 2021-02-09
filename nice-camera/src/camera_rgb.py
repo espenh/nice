@@ -5,7 +5,7 @@ import base64
 from imageUtils import apply_brightness_contrast
 from threadedVideoCapture import ThreadedVideoCapture
 
-class Camera:
+class CameraRgb:
     def __init__(self):
         self.isInitialized = False
 
