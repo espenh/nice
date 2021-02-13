@@ -3,7 +3,8 @@ import cv2
   
 #cap = cv2.VideoCapture('./data/sample_night_single.mp4') 
 #cap = cv2.VideoCapture('./data/sample_day_single.mp4') 
-cap = cv2.VideoCapture('./data/sample_day_real_1.mp4') 
+#cap = cv2.VideoCapture('./data/sample_day_real_1.mp4') 
+cap = cv2.VideoCapture('./data/sample_night_hard.mp4') 
   
 # initializing subtractor  
 #fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()  
@@ -25,6 +26,7 @@ while(1):
     fgmask = fgbg.apply(frame)   
     
     fgmask = cv2.medianBlur(fgmask, 5)
+    _, fgmask = cv2.threshold(fgmask,127,255,cv2.THRESH_BINARY)
   
     
     fgmask = cv2.dilate(fgmask, kernel, iterations = 2)
