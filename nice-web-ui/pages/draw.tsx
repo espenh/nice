@@ -1,15 +1,24 @@
-import React from "react";
-import { BasicFabric } from "../components/basicFabric";
+import { Box } from "@material-ui/core";
+import React, { useState } from "react";
+import { DrawFabric } from "../components/drawFabric";
+import { DrawToolbar } from "../components/toolbar";
 import { mappingResult } from "../model/basline";
+import { DrawMode } from "../model/drawContracts";
 
-interface IBasicPageSSRProps {}
+interface IDrawPageProps {}
 
-export const BasicPage: React.FunctionComponent<IBasicPageSSRProps> = () => {
+export const DrawPage: React.FunctionComponent<IDrawPageProps> = () => {
+  const [mode, setMode] = useState<DrawMode>(DrawMode.Normal);
+
   return (
     <div className="container">
       <div className="app">
-        <div>tooling</div>
-        <BasicFabric leds={mappingResult.foundLeds} />
+        <Box>
+          
+        </Box>
+        <Box>
+          <DrawFabric drawMode={mode} leds={mappingResult.foundLeds} />
+        </Box>
 
         <style jsx global>{`
           canvas {
@@ -61,4 +70,4 @@ export const BasicPage: React.FunctionComponent<IBasicPageSSRProps> = () => {
   );
 };
 
-export default BasicPage;
+export default DrawPage;
