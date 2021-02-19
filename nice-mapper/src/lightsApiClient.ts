@@ -18,9 +18,18 @@ export class LightsApiClient {
         await delay(100);
     }
 
+    async turnOnLights(colorsByIndex: ColorsByIndex) {
+        await fetch(`${this.baseUrl}/lights/multi/`, {
+            method: "post", headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify(colorsByIndex)
+        });
+        await delay(100);
+    }
+
     async turnOnLightRgb(indexes: { redIndex?: number | undefined, greenIndex?: number | undefined, blueIndex?: number | undefined }) {
         const indexesAsString = _.mapValues(indexes, i => i?.toString());
-        const params = new URLSearchParams(indexesAsString);
+        const params = new URLSearchParams(indexesAsString as any); // TODO - Don't cast.
         await fetch(`${this.baseUrl}/lights/rgb/?${params}`);
         await delay(300);
     }
@@ -30,6 +39,8 @@ export class LightsApiClient {
         await delay(500);
     }
 }
+
+export type ColorsByIndex = { [index: number]: { r: number, g: number, b: number } };
 
 // Copied from the output of /gestalt on the Twinkly api.
 export interface ILedInfo {

@@ -72,6 +72,13 @@ class Lights:
         frame[index] = colorTypeToColor[color]
         await self.sendFrame(frame)
     
+    async def turnOnMultiple(self, colorsByIndex: dict):
+        frame = dark(400)
+        for index, colors in colorsByIndex.items():
+            frame[int(index)] = (0, colors['r'], colors['g'], colors['b'])
+        
+        await self.sendFrame(frame)
+    
     async def turnOnRGBLights(self, redIndex:int=None, greenIndex:int=None, blueIndex:int=None):
         frame = dark(400)
         

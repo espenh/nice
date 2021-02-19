@@ -18,6 +18,10 @@ async def reset():
     await lights.reset()
     return {"message": "Hello World"}
 
+@app.post("/lights/multi/")
+async def lightsMulti(colorsByIndex: dict):
+    await lights.turnOnMultiple(colorsByIndex)
+    return {"multi": True}
 
 @app.get("/lights/single/")
 async def lightsSingle(index: int, color: int):

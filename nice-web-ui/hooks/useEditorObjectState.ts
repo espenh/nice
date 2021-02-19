@@ -1,12 +1,15 @@
 import _ from "lodash";
 import { useContext, useEffect } from "react";
 import { FabricContext } from "../context/fabricContext";
+import { useActionConnection } from "./useActionConnection";
 
 export function useEditorObjectState() {
   const { canvas } = useContext(FabricContext);
+  const connection = useActionConnection();
 
   useEffect(() => {
-    if (!canvas) {
+    if (!canvas || !connection) {
+      console.log("no connection");
       return;
     }
 
@@ -32,12 +35,31 @@ export function useEditorObjectState() {
       );
 
       console.log(obscuredLeds);
+
+
     }, 1000);
 
+    const communicateObjectStateThrottled = _.throttle((object: fabric.Object | undefined) => {
+      if (!object) {
+        return;
+      }
+
+      // We currently only support placed rectangles.
+      if (object.type === "rect") {
+        connection.updateObject(object as fabric.Rect);
+      }
+    }, 500);
+
     eventsToTrack.forEach((event) => {
-      canvas.on(event, () => {
-        dumpState();
+      canvas.on(event, (x) => {
+        // dumpState();
+
+        if (event === "object:removed") {
+          connection.removeObject(x.target?.data?.id);
+        } else {
+          communicateObjectStateThrottled(x.target);
+        }
       });
     });
-  }, [canvas]);
+  }, [canvas, connection]);
 }

@@ -1,7 +1,9 @@
 import { fabric } from "fabric";
 import React, { useContext, useEffect } from "react";
+import { v4 } from "uuid";
 import { FabricContext } from "../context/fabricContext";
 import { DrawMode } from "../model/drawContracts";
+import { ICoordinate } from "../model/shared/contracts";
 import { FabricCanvas } from "./fabricCanvas";
 
 export interface IEditorSurfaceProps {
@@ -12,11 +14,6 @@ export interface IEditorSurfaceProps {
 interface ILedPos {
   index: number;
   position: ICoordinate;
-}
-
-interface ICoordinate {
-  x: number;
-  y: number;
 }
 
 export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
@@ -52,7 +49,7 @@ export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
       left: 20,
     });
 
-    const ledDots = props.leds.map((led) => {
+    const ledDots = props.leds.flatMap((led) => {
       const dot = new fabric.Circle({
         left: led.position.x,
         top: led.position.y,
@@ -70,7 +67,14 @@ export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
         },
       });
 
-      return dot;
+      const text = new fabric.Text(led.index.toString(), {
+        left: led.position.x,
+        top: led.position.y,
+        selectable: false,
+        fontSize: 10
+      });
+
+      return [text, dot];
     });
 
     canvas.add(...ledDots);
@@ -112,17 +116,25 @@ function wireUpEvents(
     if (editMode === DrawMode.Drawing) {
       stateBag.isDown = true;
       const pointer = canvas.getPointer(evt);
-      const points = [pointer.x, pointer.y, pointer.x, pointer.y];
-      const line = new fabric.Line(points, {
-        strokeWidth: 6,
+      const height = 50;
+      const halfHeight = height / 2;
+      const line = new fabric.Rect({
+        left: pointer.x,
+        top: pointer.y + halfHeight,
+        height: height,
+        width: 1,
+        fill: "green",
+        data: { id: v4() },
+        strokeWidth: 0,
         opacity: 0.7,
-        stroke: "green",
-        originX: "center",
-        originY: "center",
+        //originX: "center",
+        //originY: "center",
       });
+
       canvas.add(line);
 
       stateBag.line = line;
+      stateBag.startPoint = new fabric.Point(pointer.x, pointer.y);
     } else {
       if (evt.altKey === true) {
         stateBag.isDragging = true;
@@ -135,15 +147,33 @@ function wireUpEvents(
   canvas.on("mouse:move", function (opt) {
     if (editMode === DrawMode.Drawing && stateBag.isDown) {
       const pointer = canvas.getPointer(opt.e);
-      stateBag.line.set({ x2: pointer.x, y2: pointer.y });
+
+      const fromPoint = stateBag.startPoint as fabric.Point;
+      const endPoint = new fabric.Point(pointer.x, pointer.y);
+      const distance = endPoint.distanceFrom(fromPoint);
+
+      const vector = endPoint.subtract(fromPoint);
+
+      // find angle between line's vector and x axis
+      let angleRad = Math.atan2(vector.y, vector.x);
+      if (angleRad < 0) {
+        angleRad = 2 * Math.PI + angleRad;
+      }
+      const angleDeg = fabric.util.radiansToDegrees(angleRad);
+
+      stateBag.line.width = distance;
+      stateBag.line.angle = angleDeg;
+
+      //stateBag.line.set({ x2: pointer.x, y2: pointer.y });
+      stateBag.line.setCoords();
       canvas.renderAll();
-      canvas.fire("object:modified");
+      canvas.fire("object:modified", { target: stateBag.line });
       return;
     }
 
     if (stateBag.isDragging) {
-      var e = opt.e as MouseEvent;
-      var vpt = canvas.viewportTransform!;
+      const e = opt.e as MouseEvent;
+      const vpt = canvas.viewportTransform!;
       vpt[4] += e.clientX - stateBag.lastPosX;
       vpt[5] += e.clientY - stateBag.lastPosY;
       canvas.requestRenderAll();
