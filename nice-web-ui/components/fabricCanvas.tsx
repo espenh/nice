@@ -37,5 +37,5 @@ export const FabricCanvas: React.FunctionComponent<IFabricCanvasProps> = () => {
     };
   }, [canvas, updateActiveObject]);
 
-  return <canvas ref={canvasEl} id="fabric-canvas" width={800} height={600} />;
+  return <canvas ref={canvasEl} id="fabric-canvas" width={1024} height={768} />;
 };

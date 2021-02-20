@@ -1,5 +1,5 @@
 import LinearScale from "@material-ui/icons/LinearScale";
-import PanTool from "@material-ui/icons/PanTool";
+import ControlCamera from "@material-ui/icons/ControlCamera";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import React from "react";
@@ -29,7 +29,7 @@ export const DrawToolbar: React.FunctionComponent<IDrawToolbarProps> = (
       size="small"
     >
       <ToggleButton value={DrawMode.Normal} aria-label="left aligned">
-        <PanTool />
+        <ControlCamera />
       </ToggleButton>
       <ToggleButton value={DrawMode.Drawing} aria-label="left aligned">
         <LinearScale />

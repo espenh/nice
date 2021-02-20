@@ -7,6 +7,11 @@ export const ObjectProperties: React.FunctionComponent = () => {
   const { canvas } = useContext(FabricContext);
   const { sendMessage } = useContext(ActionConnectionContext);
 
+  const pane = useMemo(() => {
+    const pane = new Tweakpane({ expanded: true });
+    return pane;
+  }, []);
+
   useEffect(() => {
     if (!canvas) {
       return;
@@ -16,7 +21,7 @@ export const ObjectProperties: React.FunctionComponent = () => {
       color: "#0f0",
     };
 
-    const color = pane.addInput(objectParams, "color");
+    const color = pane.addInput(objectParams, "color", { label: "Color" });
     color.on("change", (newColor: string) => {
       const activeObjects = canvas.getActiveObjects();
       for (const object of activeObjects) {
@@ -37,7 +42,8 @@ export const ObjectProperties: React.FunctionComponent = () => {
       }
     });
 
-    const btn = pane.addButton({
+    const effects = pane.addFolder({ title: "Effects" });
+    const btn = effects.addButton({
       title: "Boom",
     });
 
@@ -51,12 +57,7 @@ export const ObjectProperties: React.FunctionComponent = () => {
         });
       }
     });
-  }, [canvas]);
+  }, [canvas, pane]);
 
-  const pane = useMemo(() => {
-    const pane = new Tweakpane();
-    return pane;
-  }, []);
-
-  return <div></div>;
+  return <></>;
 };

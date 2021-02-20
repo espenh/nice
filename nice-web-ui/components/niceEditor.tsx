@@ -1,4 +1,5 @@
 import { Box } from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
 import React, { useState } from "react";
 import { useEditorHotkeys } from "../hooks/useEditorHotkeys";
 import { useEditorObjectState } from "../hooks/useEditorObjectState";
@@ -15,12 +16,14 @@ export const NiceEditor: React.FunctionComponent = () => {
 
   return (
     <Box className="app">
-      <Box>
+      <Box m={1}>
         <ObjectProperties />
         <DrawToolbar mode={mode} setMode={setMode} />
       </Box>
-      <Box>
-        <EditorSurface mode={mode} leds={mappingResult.foundLeds} />
+      <Box m={1}>
+        <Paper>
+          <EditorSurface mode={mode} leds={mappingResult.foundLeds} />
+        </Paper>
       </Box>
 
       <style jsx global>{`
@@ -36,6 +39,10 @@ export const NiceEditor: React.FunctionComponent = () => {
           height: 100%;
           display: grid;
           grid-template-rows: auto 1fr;
+        }
+
+        .app > * {
+          min-width: 0;
         }
 
         .canvas-wrapper {

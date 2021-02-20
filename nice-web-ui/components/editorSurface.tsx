@@ -36,16 +36,15 @@ export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
       return;
     }
 
-    //canvas.setDimensions({ width: 800, height: 600 }, {});
-
-    canvas.renderAll();
-    canvas.setBackgroundImage("/baseline.jpg", () => {});
+    canvas.setBackgroundImage("/baseline.jpg", () => {
+      canvas.renderAll();
+    });
 
     const ledDots = props.leds.flatMap((led) => {
       const dot = new fabric.Circle({
         left: led.position.x,
         top: led.position.y,
-        fill: "blue",
+        fill: "#4800FF",
         opacity: 0.5,
         radius: 5,
         strokeWidth: 1,
@@ -106,7 +105,7 @@ function wireUpEvents(
     if (editMode === DrawMode.Drawing) {
       stateBag.isDown = true;
       const pointer = canvas.getPointer(evt);
-      const height = 50;
+      const height = 60;
       const halfHeight = height / 2;
       const line = new fabric.Rect({
         left: pointer.x,
@@ -134,6 +133,7 @@ function wireUpEvents(
       }
     }
   });
+
   canvas.on("mouse:move", function (opt) {
     if (editMode === DrawMode.Drawing && stateBag.isDown) {
       const pointer = canvas.getPointer(opt.e);
@@ -154,7 +154,6 @@ function wireUpEvents(
       stateBag.line.width = distance;
       stateBag.line.angle = angleDeg;
 
-      //stateBag.line.set({ x2: pointer.x, y2: pointer.y });
       stateBag.line.setCoords();
       canvas.renderAll();
       canvas.fire("object:modified", { target: stateBag.line });

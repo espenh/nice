@@ -23,7 +23,7 @@ export const FabricContextProvider: React.FunctionComponent<
       preserveObjectStacking: true,
       selection: true,
       defaultCursor: "default",
-      backgroundColor: "#f3f3f3",
+      
     };
     const canvas = new fabric.Canvas(el, canvasOptions);
     canvas.renderAll();
