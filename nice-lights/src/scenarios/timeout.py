@@ -15,15 +15,5 @@ async def main() -> None:
     input("Press Enter to continue...")
     await light.close()
 
-
-async def periodic():
-    while True:
-        print("Checking")
-        if light is not None:
-            print("Greeting")
-            await light.keepAlive()
-        await asyncio.sleep(5)
-
-
 if __name__ == "__main__":
     asyncio.run(main())

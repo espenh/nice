@@ -1,87 +1,86 @@
 import Color from "color";
 import _ from "lodash";
+import { performance } from "perf_hooks";
 import { ColorsByIndex, LightsApiClient } from "../../nice-mapper/src/lightsApiClient";
-import { ActionState } from "./actionState";
-import { ICoordinate, ILedStatus, IPlacedObject, IRectangle } from "./contracts";
+import { ActionObjectState } from "./actionObjectState";
+import { ILedStatus, IPlacedObject, IRectangle } from "./contracts";
+import { EffectsCollection } from "./effects/effectsCollection";
+import { isOccluded } from "./utils/ledOcclusion";
 
 export class ActionDirector {
-    private state = new ActionState();
+    // TODO - These should not be public.
+    public objectState = new ActionObjectState();
+    public effectCollection: EffectsCollection;
+
+    private previousLightSent: ColorsByIndex | undefined;
+    private lastTickTime: number | undefined;
 
     constructor(private ledStatus: ILedStatus, private ledClient: LightsApiClient) {
-        setInterval(() => {
-            this.tick();
-        }, 2000);
+
+        this.effectCollection = new EffectsCollection();
+
+        setInterval(async () => {
+            const now = performance.now();
+            const timeSinceLast = this.lastTickTime === undefined ? 0 : now - this.lastTickTime;
+
+            try {
+                console.time("tick");
+                await this.tick(timeSinceLast);
+
+            } catch (error) {
+                // TODO - Silent for now as it's mostly connection issues for when the lights service isn't started.
+                // Add a check on startup to see that we have all required services ready.
+                // Kill this interval if we fail x times in a row.
+            } finally {
+                this.lastTickTime = performance.now();
+                console.timeEnd("tick");
+            }
+        }, 50);
     }
 
     public placeObject(object: IPlacedObject) {
-        this.state.placeObject(object);
+        this.objectState.placeObject(object);
     }
 
     public removePlacedObject(objectId: string) {
-        this.state.removeObject(objectId);
+        this.objectState.removeObject(objectId);
     }
 
-    private findOccludedLeds = _.memoize((rectangle: IRectangle) => {
-        return this.ledStatus.leds.filter(led => isOccluded(led.position, rectangle));
-    });
-
-    private previousLightSent: ColorsByIndex | undefined;
-
-    public async tick() {
+    public async tick(ellapsedMilliseconds: number) {
         // Find occluded leds by placed object.
-        const state = this.state.getState();
+        const state = this.objectState.getState();
         const objectsOccludingLeds = state.placedObjects.map(object => {
-            const leds = this.findOccludedLeds(object.rectangle);
+            const leds = this.findOccludedLedsMemoized(object.rectangle);
             return {
                 object,
                 leds
             };
         }).filter(x => x.leds.length > 0);
 
-        const colorsByIndex = _.fromPairs(_.flatten(objectsOccludingLeds.map(o => {
+        const frameFromPlacedObjects: ColorsByIndex = _.fromPairs(_.flatten(objectsOccludingLeds.map(o => {
             const color = Color(o.object.color);
             const rgb = { r: color.red(), g: color.green(), b: color.blue() };
             return o.leds.map(l => [l.index, rgb]);
         })));
 
-        if (this.previousLightSent && _.isEqual(this.previousLightSent, colorsByIndex)) {
+        // Apply any effects.
+        const frameWithAppliedEffects = this.effectCollection.tick(ellapsedMilliseconds, frameFromPlacedObjects, { ledInfo: this.ledStatus, placedObject: state.placedObjects });
+
+        // No need to send the same frame.
+        if (this.previousLightSent && _.isEqual(this.previousLightSent, frameWithAppliedEffects)) {
             return;
         }
 
         try {
-            console.log(JSON.stringify({ colorsByIndex }));
-            await this.ledClient.turnOnLights(colorsByIndex);
-            this.previousLightSent = colorsByIndex;
+            console.log(JSON.stringify({ frameWithAppliedEffects }));
+            this.previousLightSent = frameWithAppliedEffects;
+            await this.ledClient.turnOnLights(frameWithAppliedEffects);
         } catch (error) {
             console.log("Failed turning on lights." + error && error.message ? error.message : "")
         }
     }
+
+    private findOccludedLedsMemoized = _.memoize((rectangle: IRectangle) => {
+        return this.ledStatus.leds.filter(led => isOccluded(led.position, rectangle));
+    });
 }
-
-function isOccluded(point: ICoordinate, placedObject: IRectangle) {
-    // Note: the rectangle can be rotated.
-    // TODO - If the rectangle is uniform(name? parallel sides), it could be quicker to
-    // revert the rotation for both the rectangle and the point, and then do a simple check.
-
-    return pointInPolygon(point, [placedObject.topLeft, placedObject.topRight, placedObject.bottomRight, placedObject.bottomLeft]);
-}
-
-function pointInPolygon(point: ICoordinate, vs: ICoordinate[]) {
-    // ray-casting algorithm based on
-    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
-
-    const { x, y } = point;
-
-    var inside = false;
-    for (var i = 0, j = vs.length - 1; i < vs.length; j = i++) {
-        var xi = vs[i].x, yi = vs[i].y;
-        var xj = vs[j].x, yj = vs[j].y;
-
-        var intersect = ((yi > y) != (yj > y))
-            && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
-
-        if (intersect) inside = !inside;
-    }
-
-    return inside;
-};

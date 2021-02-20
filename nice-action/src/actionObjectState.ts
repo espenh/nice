@@ -1,10 +1,11 @@
-import { IPlacedObject, IRectangle } from "./contracts";
+import { IPlacedObject } from "./contracts";
 
 export interface IActionState {
-    placedObjects: IPlacedObject[];  
+    placedObjects: IPlacedObject[];
 }
 
-export class ActionState {
+export class ActionObjectState {
+
     private placedObjectsById: Map<string, IPlacedObject> = new Map();
 
     private stateSnapshotCache: IActionState | undefined;
@@ -24,6 +25,10 @@ export class ActionState {
     public removeObject(objectId: string) {
         this.placedObjectsById.delete(objectId);
         this.clearCache();
+    }
+
+    public getObject(objectId: string): IPlacedObject | undefined {
+        return this.placedObjectsById.get(objectId);
     }
 
     public getState(): IActionState {

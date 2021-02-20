@@ -20,4 +20,14 @@ export interface IPlacedObjectDeletedMessage {
     objectId: string;
 }
 
-export type NiceActionMessage = IDetectedObjectAndPositionMessage | IPlacedReactionObjectMessage | IPlacedObjectDeletedMessage;
+export interface ITriggerEffectMessage {
+    type: "trigger-effect";
+    targetObjectId: string;
+    effectType: string;
+}
+
+export type NiceActionMessage =
+    | IDetectedObjectAndPositionMessage
+    | IPlacedReactionObjectMessage
+    | IPlacedObjectDeletedMessage
+    | ITriggerEffectMessage;

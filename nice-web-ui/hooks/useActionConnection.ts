@@ -29,7 +29,7 @@ export function useActionConnection() {
         const objectData: IPlacedReactionObjectMessage = {
           type: "placed-object", object: {
             id: objectId,
-            color: "blue",
+            color: object.fill.toString() || "pink",
             rectangle: {
               topLeft: getPoint(object.aCoords.tl),
               topRight: getPoint(object.aCoords.tr),

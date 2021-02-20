@@ -5,6 +5,7 @@ import { useEditorObjectState } from "../hooks/useEditorObjectState";
 import { mappingResult } from "../model/basline";
 import { DrawMode } from "../model/drawContracts";
 import { EditorSurface } from "./editorSurface";
+import { ObjectProperties } from "./objectProperties";
 import { DrawToolbar } from "./toolbar";
 
 export const NiceEditor: React.FunctionComponent = () => {
@@ -15,6 +16,7 @@ export const NiceEditor: React.FunctionComponent = () => {
   return (
     <Box className="app">
       <Box>
+        <ObjectProperties />
         <DrawToolbar mode={mode} setMode={setMode} />
       </Box>
       <Box>

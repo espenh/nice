@@ -26,6 +26,7 @@ export const DrawToolbar: React.FunctionComponent<IDrawToolbarProps> = (
       exclusive
       onChange={handleMode}
       aria-label="text alignment"
+      size="small"
     >
       <ToggleButton value={DrawMode.Normal} aria-label="left aligned">
         <PanTool />

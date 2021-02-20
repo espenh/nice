@@ -40,14 +40,6 @@ export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
 
     canvas.renderAll();
     canvas.setBackgroundImage("/baseline.jpg", () => {});
-    const rect = new fabric.Rect({
-      width: 50,
-      height: 50,
-      fill: "red",
-      angle: 10,
-      top: 20,
-      left: 20,
-    });
 
     const ledDots = props.leds.flatMap((led) => {
       const dot = new fabric.Circle({
@@ -71,7 +63,7 @@ export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
         left: led.position.x,
         top: led.position.y,
         selectable: false,
-        fontSize: 10
+        fontSize: 10,
       });
 
       return [text, dot];
@@ -84,8 +76,6 @@ export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
         // We can use this to snap-to-line
       }
     });
-
-    canvas.add(rect);
 
     return () => {
       canvas.dispose();
@@ -123,12 +113,12 @@ function wireUpEvents(
         top: pointer.y + halfHeight,
         height: height,
         width: 1,
-        fill: "green",
+        fill: "#0094FF",
         data: { id: v4() },
         strokeWidth: 0,
         opacity: 0.7,
         //originX: "center",
-        //originY: "center",
+        originY: "center",
       });
 
       canvas.add(line);

@@ -23,22 +23,6 @@ export function useEditorObjectState() {
       "object:removed",
     ];
 
-    const dumpState = _.debounce(() => {
-      const allObjects = canvas.getObjects();
-      const leds = allObjects.filter((o) => o.data?.type === "led");
-      const nonLedOBjects = allObjects.filter((o) => o.data?.type !== "led");
-
-      const obscuredLeds = _.uniq(
-        nonLedOBjects.flatMap((obscuring) => {
-          return leds.filter((l) => l.intersectsWithObject(obscuring));
-        })
-      );
-
-      console.log(obscuredLeds);
-
-
-    }, 1000);
-
     const communicateObjectStateThrottled = _.throttle((object: fabric.Object | undefined) => {
       if (!object) {
         return;
@@ -48,7 +32,7 @@ export function useEditorObjectState() {
       if (object.type === "rect") {
         connection.updateObject(object as fabric.Rect);
       }
-    }, 500);
+    }, 50);
 
     eventsToTrack.forEach((event) => {
       canvas.on(event, (x) => {

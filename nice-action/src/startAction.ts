@@ -3,13 +3,14 @@ import { ActionDirector } from "./actionDirector";
 import { mappingResult } from "./data/leds";
 import { NiceActionMessage } from "./messageContracts";
 import { LightsApiClient } from "../../nice-mapper/src/lightsApiClient"
+import { HighlightObjectEffect } from "./effects/highlightObjectEffect";
 
 async function run() {
     try {
         const wss = new WebSocket.Server({ port: 8080 });
 
         const lights = new LightsApiClient("http://localhost:8001");
-        const director = new ActionDirector({ leds: mappingResult.foundLeds, }, lights);
+        const director = new ActionDirector({ leds: mappingResult.foundLeds }, lights);
 
         wss.on('connection', function connection(ws) {
             ws.on('message', function incoming(message) {
@@ -22,6 +23,13 @@ async function run() {
 
                     if (action.type === "placed-object-deleted") {
                         director.removePlacedObject(action.objectId);
+                    }
+
+                    if (action.type === "trigger-effect") {
+                        const object = director.objectState.getObject(action.targetObjectId);
+                        if (object) {
+                            director.effectCollection.add(new HighlightObjectEffect(object));
+                        }
                     }
                 } else {
                     console.log('Received non-action: %s', message);
