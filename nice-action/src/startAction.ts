@@ -1,9 +1,9 @@
 import * as WebSocket from "ws";
+import { LightsApiClient } from "../../nice-mapper/src/lightsApiClient";
 import { ActionDirector } from "./actionDirector";
 import { mappingResult } from "./data/leds";
-import { NiceActionMessage } from "./messageContracts";
-import { LightsApiClient } from "../../nice-mapper/src/lightsApiClient"
 import { HighlightObjectEffect } from "./effects/highlightObjectEffect";
+import { NiceActionMessage } from "./messageContracts";
 
 async function run() {
     try {
@@ -30,6 +30,10 @@ async function run() {
                         if (object) {
                             director.effectCollection.add(new HighlightObjectEffect(object));
                         }
+                    }
+
+                    if (action.type === "detected-objects") {
+                        director.movingState.setObjects(action.coordinates.map(c => ({ coordinate: c })));
                     }
                 } else {
                     console.log('Received non-action: %s', message);

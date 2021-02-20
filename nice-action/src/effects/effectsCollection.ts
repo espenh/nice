@@ -2,7 +2,6 @@ import _ from "lodash";
 import { ColorsByIndex } from "../../../nice-mapper/src/lightsApiClient";
 import { IEffect, IEffectProps } from "./effectContracts";
 
-
 export class EffectsCollection {
 
     private effects: IEffect[] = [];

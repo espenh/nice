@@ -26,8 +26,14 @@ export interface ITriggerEffectMessage {
     effectType: string;
 }
 
+export interface IDetectedObjectsMessage {
+    type: "detected-objects";
+    coordinates: ICoordinate[];
+}
+
 export type NiceActionMessage =
     | IDetectedObjectAndPositionMessage
     | IPlacedReactionObjectMessage
     | IPlacedObjectDeletedMessage
-    | ITriggerEffectMessage;
+    | ITriggerEffectMessage
+    | IDetectedObjectsMessage;

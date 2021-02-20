@@ -4,6 +4,10 @@ export interface IPlacedObject {
     color: string;
 }
 
+export interface IMovingObject {
+    coordinate: ICoordinate;
+}
+
 export interface IRectangle {
     topLeft: ICoordinate;
     topRight: ICoordinate;

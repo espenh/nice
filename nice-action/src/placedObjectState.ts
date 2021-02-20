@@ -1,14 +1,13 @@
 import { IPlacedObject } from "./contracts";
 
-export interface IActionState {
+export interface IPlacedObjectStateSnapshot {
     placedObjects: IPlacedObject[];
 }
 
-export class ActionObjectState {
+export class PlacedObjectState {
 
     private placedObjectsById: Map<string, IPlacedObject> = new Map();
-
-    private stateSnapshotCache: IActionState | undefined;
+    private stateSnapshotCache: IPlacedObjectStateSnapshot | undefined;
 
     constructor() { }
 
@@ -31,7 +30,7 @@ export class ActionObjectState {
         return this.placedObjectsById.get(objectId);
     }
 
-    public getState(): IActionState {
+    public getState(): IPlacedObjectStateSnapshot {
         if (!this.stateSnapshotCache) {
             const placedObjects = Array.from(this.placedObjectsById.values());
 

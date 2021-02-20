@@ -3,8 +3,8 @@ import cv2
   
 #cap = cv2.VideoCapture('./data/sample_night_single.mp4') 
 #cap = cv2.VideoCapture('./data/sample_day_single.mp4') 
-#cap = cv2.VideoCapture('./data/sample_day_real_1.mp4') 
-cap = cv2.VideoCapture('./data/sample_night_hard.mp4') 
+cap = cv2.VideoCapture('./data/sample_day_real_1.mp4') 
+#cap = cv2.VideoCapture('./data/sample_night_hard.mp4') 
   
 # initializing subtractor  
 #fgbg = cv2.bgsegm.createBackgroundSubtractorMOG()  
@@ -23,9 +23,11 @@ while(1):
     frame = cv2.resize(frame, (0,0), fx=0.5, fy=0.5, interpolation = cv2.INTER_LINEAR)
     
     # applying on each frame 
+    #_, fgmask = cv2.threshold(frame,127,255,cv2.THRESH_BINARY)
     fgmask = fgbg.apply(frame)   
     
     fgmask = cv2.medianBlur(fgmask, 5)
+    
     _, fgmask = cv2.threshold(fgmask,127,255,cv2.THRESH_BINARY)
   
     
@@ -38,7 +40,7 @@ while(1):
     for cnt in contours:
         area = cv2.contourArea(cnt)
         # print (area)
-        if area <500:
+        if area <200:
             continue
         
         #for existingContours in uniqueContours:

@@ -2,14 +2,17 @@ import Color from "color";
 import _ from "lodash";
 import { performance } from "perf_hooks";
 import { ColorsByIndex, LightsApiClient } from "../../nice-mapper/src/lightsApiClient";
-import { ActionObjectState } from "./actionObjectState";
 import { ILedStatus, IPlacedObject, IRectangle } from "./contracts";
 import { EffectsCollection } from "./effects/effectsCollection";
-import { isOccluded } from "./utils/ledOcclusion";
+import { HighlightObjectEffect } from "./effects/highlightObjectEffect";
+import { MovingObjectState } from "./movingObjectState";
+import { PlacedObjectState } from "./placedObjectState";
+import { findOccludedLeds, isOccluded } from "./utils/ledOcclusion";
 
 export class ActionDirector {
     // TODO - These should not be public.
-    public objectState = new ActionObjectState();
+    public objectState = new PlacedObjectState();
+    public movingState = new MovingObjectState();
     public effectCollection: EffectsCollection;
 
     private previousLightSent: ColorsByIndex | undefined;
@@ -35,7 +38,7 @@ export class ActionDirector {
                 this.lastTickTime = performance.now();
                 console.timeEnd("tick");
             }
-        }, 50);
+        }, 200);
     }
 
     public placeObject(object: IPlacedObject) {
@@ -46,7 +49,28 @@ export class ActionDirector {
         this.objectState.removeObject(objectId);
     }
 
+    private processMovingObjects() {
+        // Any moving objects nearby placed objects?
+        const movingState = this.movingState.getState();
+        const placedState = this.objectState.getState();
+
+        if (movingState.movingObjects.length === 0 || placedState.placedObjects.length === 0) {
+            return;
+        }
+
+        for (const movingObject of movingState.movingObjects) {
+            const intersectingFixed = placedState.placedObjects.find(p => isOccluded(movingObject.coordinate, p.rectangle));
+            if (intersectingFixed) {
+                console.log("INTERSECTION!");
+                this.effectCollection.add(new HighlightObjectEffect(intersectingFixed));
+            }
+        }
+
+    }
+
     public async tick(ellapsedMilliseconds: number) {
+        this.processMovingObjects();
+
         // Find occluded leds by placed object.
         const state = this.objectState.getState();
         const objectsOccludingLeds = state.placedObjects.map(object => {
