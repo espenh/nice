@@ -24,7 +24,7 @@ export class LightsApiClient {
                 'Content-Type': 'application/json'
             }, body: JSON.stringify(colorsByIndex)
         });
-        await delay(50);
+        await delay(20);
     }
 
     async turnOnLightRgb(indexes: { redIndex?: number | undefined, greenIndex?: number | undefined, blueIndex?: number | undefined }) {
