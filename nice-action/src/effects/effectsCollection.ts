@@ -3,7 +3,6 @@ import { ColorsByIndex } from "../../../nice-mapper/src/lightsApiClient";
 import { IEffect, IEffectProps } from "./effectContracts";
 
 export class EffectsCollection {
-
     private effects: IEffect[] = [];
 
     add(effect: IEffect) {
@@ -12,7 +11,7 @@ export class EffectsCollection {
 
     tick(milliseconds: number, inputFrame: ColorsByIndex, props: IEffectProps) {
         if (this.effects.length === 0) {
-            return inputFrame;
+            return { frame: inputFrame, affectedLedIndexes: [] };
         }
 
         const effectOutputs: ColorsByIndex[] = [];
@@ -28,7 +27,7 @@ export class EffectsCollection {
         }
 
         // Remove finished effects.
-        _.remove(this.effects, e => completedEffects.includes(e));
+        _.remove(this.effects, (e) => completedEffects.includes(e));
 
         // Merge combined result of all effects.
         const outputFrame: ColorsByIndex = { ...inputFrame };
@@ -37,24 +36,38 @@ export class EffectsCollection {
                 const ledIndex = Number.parseInt(ledIndexAsString);
                 if (outputFrame.hasOwnProperty(ledIndex)) {
                     // Additive blend effect and frame.
-                    outputFrame[ledIndex].r = clamp(outputFrame[ledIndex].r + effectOutput[ledIndex].r);
-                    outputFrame[ledIndex].g = clamp(outputFrame[ledIndex].g + effectOutput[ledIndex].g);
-                    outputFrame[ledIndex].b = clamp(outputFrame[ledIndex].b + effectOutput[ledIndex].b);
+                    outputFrame[ledIndex].r = clamp(
+                        outputFrame[ledIndex].r + effectOutput[ledIndex].r
+                    );
+                    outputFrame[ledIndex].g = clamp(
+                        outputFrame[ledIndex].g + effectOutput[ledIndex].g
+                    );
+                    outputFrame[ledIndex].b = clamp(
+                        outputFrame[ledIndex].b + effectOutput[ledIndex].b
+                    );
                 } else {
                     // Dark led. Just add effect.
                     outputFrame[ledIndex] = {
                         r: clamp(effectOutput[ledIndex].r),
                         g: clamp(effectOutput[ledIndex].g),
-                        b: clamp(effectOutput[ledIndex].b)
+                        b: clamp(effectOutput[ledIndex].b),
                     };
                 }
             }
         }
 
-        return outputFrame;
+        // TODO - A bit nasty.
+        //  We're just returning all the led indexes affected by applied effects.
+        return {
+            frame: outputFrame,
+            affectedLedIndexes: _.uniq(
+                _.flatMap(effectOutputs, (e) =>
+                    Object.keys(e).map((index) => Number.parseInt(index))
+                )
+            ),
+        };
     }
 }
-
 
 function clamp(color: number) {
     return Math.min(255, color);
