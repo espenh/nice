@@ -35,7 +35,7 @@ class CameraStreaming:
             if frame is None:
                 break
 
-            foundObjects = self.detector.processFrame(frame)
+            (foundObjects, mask) = self.detector.processFrame(frame)
             foundObjectCount = len(foundObjects)
 
             if foundObjectCount > 0 or not sentZero:
@@ -48,4 +48,4 @@ class CameraStreaming:
                 # let server know, but don't keep sending zeroes.
                 sentZero = foundObjectCount == 0
 
-            time.sleep(0.2)
+            time.sleep(0.1)

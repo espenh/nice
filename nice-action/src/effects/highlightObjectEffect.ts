@@ -40,8 +40,6 @@ export class HighlightObjectEffect implements IEffect {
         const remainingEffectAsFraction = 1 - (this.spentEffectLength / this.wantedEffectLengthInMs);
         const redness = Math.round(255 * remainingEffectAsFraction);
 
-        console.log(JSON.stringify({ min, max, lowerLeds, higherLeds, redness }));
-
         this.spentEffectLength += ellapsedMilliseconds;
         if (this.spentEffectLength >= this.wantedEffectLengthInMs) {
             this.isFinished = true;

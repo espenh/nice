@@ -47,7 +47,7 @@ export class ActionDirector {
             } finally {
                 this.lastTickTime = performance.now();
             }
-        }, 50);
+        }, 30);
     }
 
     public placeObject(object: IPlacedObject) {
@@ -80,7 +80,6 @@ export class ActionDirector {
                 const a = m.coordinate.x - led.position.x;
                 const b = m.coordinate.y - led.position.y;
                 const distance = Math.sqrt(a * a + b * b);
-                console.log(distance);
                 return distance > 500;
             }
         });
@@ -163,7 +162,7 @@ export class ActionDirector {
 
         // Remove ignore status of leds that have been part of a highlight more than x seconds ago.
         const now = performance.now();
-        this.currentlyAffectedLedIndexes = this.currentlyAffectedLedIndexes.filter(i => (now - i.time) < 2000);
+        this.currentlyAffectedLedIndexes = this.currentlyAffectedLedIndexes.filter(i => (now - i.time) < 5000);
     }
 
     private findOccludedLedsMemoized = _.memoize((rectangle: IRectangle) => {
