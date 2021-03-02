@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prebuild": "cd ../nice-common && yarn build"
+    "prebuild": "cd ../nice-common && yarn install && yarn build"
   },
   "dependencies": {
     "lodash": "4.17.21",
