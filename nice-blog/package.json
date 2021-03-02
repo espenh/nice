@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "prebuild": "cd ../nice-common && yarn build"
   },
   "dependencies": {
     "lodash": "4.17.21",
