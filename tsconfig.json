@@ -1,0 +1,23 @@
+{
+    "files": [],
+    "references": [
+        {
+            "path": "./nice-common"
+        },
+        {
+            "path": "./nice-action"
+        },
+        {
+            "path": "./nice-mapper"
+        },
+        {
+            "path": "./nice-web-ui"
+        },
+        {
+            "path": "./nice-blog"
+        }
+    ],
+    "compilerOptions": {
+        "skipLibCheck": true
+    }
+}

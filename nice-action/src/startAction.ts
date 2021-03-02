@@ -1,3 +1,4 @@
+import {party} from "nice-common";
 import * as WebSocket from "ws";
 import { LightsApiClient } from "../../nice-mapper/src/lightsApiClient";
 import { ActionDirector } from "./actionDirector";
@@ -7,6 +8,7 @@ import { NiceActionMessage } from "./messageContracts";
 
 async function run() {
     try {
+        console.log(party);
         const wss = new WebSocket.Server({ port: 8080 });
 
         const lights = new LightsApiClient("http://localhost:8001");

@@ -23,22 +23,10 @@ export const FabricContextProvider: React.FunctionComponent<
       preserveObjectStacking: true,
       selection: true,
       defaultCursor: "default",
-      
     };
     const canvas = new fabric.Canvas(el, canvasOptions);
     canvas.renderAll();
     setCanvas(canvas);
-  }, []);
-
-  const loadFromJSON = useCallback((el, json) => {
-    let c = new fabric.Canvas(el);
-    c.loadFromJSON(json, () => {
-      c.renderAll.bind(c);
-      c.setWidth(json.width);
-      c.setHeight(json.height);
-    });
-    c.renderAll();
-    setCanvas(c);
   }, []);
 
   return (
@@ -46,7 +34,6 @@ export const FabricContextProvider: React.FunctionComponent<
       value={{
         canvas,
         initCanvas,
-        //loadFromJSON,
         activeObject,
         setActiveObject,
       }}

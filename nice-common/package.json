@@ -1,0 +1,13 @@
+{
+  "name": "nice-common",
+  "version": "1.0.0",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "typescript": "^4.2.2"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}
