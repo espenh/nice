@@ -1,8 +1,8 @@
 import _ from "lodash";
-import { ColorsByIndex } from "../../../nice-mapper/src/lightsApiClient";
-import { IPlacedObject } from "../contracts";
-import { findOccludedLeds } from "../utils/ledOcclusion";
+import { ColorsByIndex, IPlacedObject } from "../domainContracts";
 import { IEffect, IEffectProps } from "./effectContracts";
+import { findOccludedLeds } from "../utils/ledOcclusion";
+
 
 // A very basic glow effect.
 // The glow is dispersed out from the object in the cable dimension, 

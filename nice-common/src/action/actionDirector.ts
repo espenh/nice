@@ -1,21 +1,12 @@
 import Color from "color";
 import _ from "lodash";
-import { performance } from "perf_hooks";
-import {
-    ColorsByIndex,
-    LightsApiClient
-} from "../../nice-mapper/src/lightsApiClient";
-import { ILedPos, ILedStatus, IPlacedObject, IRectangle } from "./contracts";
-import { EffectsCollection } from "./effects/effectsCollection";
-import { HighlightObjectEffect } from "./effects/highlightObjectEffect";
+import { ColorsByIndex, ILedPos, ILedStatus, IPlacedObject, IRectangle } from "../domainContracts";
+import { EffectsCollection } from "../effects/effectsCollection";
+import { HighlightObjectEffect } from "../effects/highlightObjectEffect";
+import { ILightsClient } from "../lights/lightContracts";
+import { isOccluded } from "../utils/ledOcclusion";
 import { MovingObjectState } from "./movingObjectState";
 import { PlacedObjectState } from "./placedObjectState";
-import { isOccluded } from "./utils/ledOcclusion";
-
-interface ILedAndTime {
-    led: ILedPos;
-    time: number;
-}
 
 export class ActionDirector {
     // TODO - These should not be public.
@@ -27,14 +18,11 @@ export class ActionDirector {
     private lastTickTime: number | undefined;
     private currentlyAffectedLedIndexes: ILedAndTime[] = [];
 
-    constructor(
-        private ledStatus: ILedStatus,
-        private ledClient: LightsApiClient
-    ) {
+    constructor(private ledStatus: ILedStatus, private ledClient: ILightsClient, private getNow: () => number) {
         this.effectCollection = new EffectsCollection();
 
         setInterval(async () => {
-            const now = performance.now();
+            const now = this.getNow();
             const timeSinceLast =
                 this.lastTickTime === undefined ? 0 : now - this.lastTickTime;
 
@@ -45,7 +33,7 @@ export class ActionDirector {
                 // Add a check on startup to see that we have all required services ready.
                 // Kill this interval if we fail x times in a row.
             } finally {
-                this.lastTickTime = performance.now();
+                this.lastTickTime = this.getNow();
             }
         }, 30);
     }
@@ -139,7 +127,7 @@ export class ActionDirector {
                 .map((led) => {
                     return {
                         led: led,
-                        time: performance.now(),
+                        time: this.getNow(),
                     };
                 })
         );
@@ -161,8 +149,10 @@ export class ActionDirector {
         }
 
         // Remove ignore status of leds that have been part of a highlight more than x seconds ago.
-        const now = performance.now();
-        this.currentlyAffectedLedIndexes = this.currentlyAffectedLedIndexes.filter(i => (now - i.time) < 5000);
+        const now = this.getNow();
+        this.currentlyAffectedLedIndexes = this.currentlyAffectedLedIndexes.filter(
+            (i) => now - i.time < 5000
+        );
     }
 
     private findOccludedLedsMemoized = _.memoize((rectangle: IRectangle) => {
@@ -170,4 +160,9 @@ export class ActionDirector {
             isOccluded(led.position, rectangle)
         );
     });
+}
+
+interface ILedAndTime {
+    led: ILedPos;
+    time: number;
 }

@@ -1,5 +1,4 @@
-import { ColorsByIndex } from "../../../nice-mapper/src/lightsApiClient";
-import { ILedStatus, IPlacedObject } from "../contracts";
+import { ColorsByIndex, ILedStatus, IPlacedObject } from "../domainContracts";
 
 export interface IEffect {
     isFinished: boolean;

@@ -1,5 +1,5 @@
 // TODO - Load from latest mapping result (json).
-export const mappingResult = {
+export const staticLedMappingResult = {
     foundLeds: [
         {
             index: 109,

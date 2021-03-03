@@ -1,4 +1,4 @@
-import { ICoordinate, IPlacedObject } from "./contracts";
+import { ICoordinate, IPlacedObject } from "./domainContracts";
 
 export interface IDetectedObjectAndPositionMessage {
     type: "detected-object";

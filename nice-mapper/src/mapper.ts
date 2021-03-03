@@ -62,7 +62,7 @@ async function runMapping() {
     const baseLineResponse = await camera.getBaseline();
 
     while (ledIndexesInRgbGroups.length > 0) {
-        const rgbIndexGroup = ledIndexesInRgbGroups.pop();
+        const rgbIndexGroup = ledIndexesInRgbGroups.pop()!;
         const [redIndex, greenIndex, blueIndex] = rgbIndexGroup;
 
         await lights.turnOnLightRgb({ redIndex, greenIndex, blueIndex });

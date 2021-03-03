@@ -1,4 +1,4 @@
-import { IMovingObject } from "./contracts";
+import { IMovingObject } from "../domainContracts";
 
 export interface IMovingObjectStateSnapshot {
     movingObjects: IMovingObject[];

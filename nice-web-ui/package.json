@@ -19,6 +19,7 @@
     "next": "10.0.7",
     "react": "17.0.1",
     "react-dom": "17.0.1",
+    "react-resize-detector": "^6.6.1",
     "tweakpane": "1.6.1",
     "uuid": "8.3.2"
   },

@@ -1,7 +1,6 @@
 import { Container, NoSsr } from "@material-ui/core";
 import React from "react";
 import { NiceEditor } from "../components/niceEditor";
-import { VirtualIce } from "../components/virtualIce";
 import { ActionConnectionProvider } from "../context/actionConnectionContext";
 import { FabricContextProvider } from "../context/fabricContext";
 
@@ -11,7 +10,6 @@ export const NicePage: React.FunctionComponent = () => {
       <ActionConnectionProvider>
         <FabricContextProvider>
           <Container className="container">
-            <VirtualIce/>
             <NiceEditor />
           </Container>
         </FabricContextProvider>

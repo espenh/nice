@@ -1,4 +1,4 @@
-import { IPlacedObject } from "./contracts";
+import { IPlacedObject } from "../domainContracts";
 
 export interface IPlacedObjectStateSnapshot {
     placedObjects: IPlacedObject[];

@@ -1,5 +1,5 @@
+import { ICoordinate, ILedPos, IRectangle } from "../domainContracts";
 
-import { ICoordinate, ILedPos, IRectangle } from "../contracts";
 
 export function findOccludedLeds(leds: ILedPos[], rectangle: IRectangle) {
     return leds.filter(led => isOccluded(led.position, rectangle));
