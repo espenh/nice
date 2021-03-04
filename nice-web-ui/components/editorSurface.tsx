@@ -1,9 +1,9 @@
 import { fabric } from "fabric";
+import { ICoordinate } from "nice-common";
 import React, { useContext, useEffect } from "react";
 import { v4 } from "uuid";
 import { FabricContext } from "../context/fabricContext";
 import { DrawMode } from "../model/drawContracts";
-import { ICoordinate } from "../model/shared/contracts";
 import { FabricCanvas } from "./fabricCanvas";
 
 export interface IEditorSurfaceProps {
@@ -81,11 +81,7 @@ export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
     };
   }, [canvas]);
 
-  return (
-    <div className="canvas-wrapper">
-      <FabricCanvas />
-    </div>
-  );
+  return <FabricCanvas />;
 };
 
 function wireUpEvents(
@@ -101,7 +97,6 @@ function wireUpEvents(
 
   canvas.on("mouse:down", function (opt) {
     const evt = opt.e as MouseEvent;
-
     if (editMode === DrawMode.Drawing) {
       stateBag.isDown = true;
       const pointer = canvas.getPointer(evt);

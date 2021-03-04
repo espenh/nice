@@ -37,3 +37,6 @@ export type NiceActionMessage =
     | IPlacedObjectDeletedMessage
     | ITriggerEffectMessage
     | IDetectedObjectsMessage;
+
+
+export type ActionMessageHandler = (message: NiceActionMessage) => void;

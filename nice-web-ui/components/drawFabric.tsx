@@ -1,7 +1,6 @@
 import { fabric } from "fabric";
 import React from "react";
 import { DrawMode } from "../model/drawContracts";
-import { DrawingEditor } from "./drawing/drawingEditor";
 
 export interface IDrawFabricProps {
   drawMode: DrawMode;
@@ -23,8 +22,6 @@ export const DrawFabric: React.FunctionComponent<IDrawFabricProps> = (
 ) => {
   React.useEffect(() => {
     const canvas = new fabric.Canvas("my-fabric-canvas", { selection: false });
-
-    const editor = new DrawingEditor(canvas);
 
     canvas.setDimensions({ width: 800, height: 600 }, {});
     canvas.renderAll();

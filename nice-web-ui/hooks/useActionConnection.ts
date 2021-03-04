@@ -1,17 +1,13 @@
 import { fabric } from "fabric";
+import { ICoordinate, IPlacedReactionObjectMessage } from "nice-common";
 import { useContext, useMemo } from "react";
 import { ActionConnectionContext } from "../context/actionConnectionContext";
-import { ICoordinate } from "../model/shared/contracts";
-import { IPlacedReactionObjectMessage } from "../model/shared/messageContracts";
+
 
 export function useActionConnection() {
-  const { socket, sendMessage } = useContext(ActionConnectionContext);
-  console.log("useActionConnection: ", sendMessage);
+  const { sendMessage } = useContext(ActionConnectionContext);
 
   const communicator = useMemo(() => {
-    if (!socket) {
-      return undefined;
-    }
 
     return {
       removeObject(objectId: string) {
@@ -42,7 +38,7 @@ export function useActionConnection() {
         sendMessage(objectData);
       }
     };
-  }, [socket]);
+  }, [sendMessage]);
 
   return communicator;
 }

@@ -4,6 +4,7 @@ import { ColorsByIndex, ILedPos, ILedStatus, IPlacedObject, IRectangle } from ".
 import { EffectsCollection } from "../effects/effectsCollection";
 import { HighlightObjectEffect } from "../effects/highlightObjectEffect";
 import { ILightsClient } from "../lights/lightContracts";
+import { ActionMessageHandler } from "../messageContracts";
 import { isOccluded } from "../utils/ledOcclusion";
 import { MovingObjectState } from "./movingObjectState";
 import { PlacedObjectState } from "./placedObjectState";
@@ -166,3 +167,30 @@ interface ILedAndTime {
     led: ILedPos;
     time: number;
 }
+
+export const getActionDirectorMessageHandler = (director: ActionDirector): ActionMessageHandler => {
+    return (action) => {
+        if (action.type === "placed-object") {
+            director.placeObject(action.object);
+        }
+
+        if (action.type === "placed-object-deleted") {
+            director.removePlacedObject(action.objectId);
+        }
+
+        if (action.type === "trigger-effect") {
+            const object = director.objectState.getObject(
+                action.targetObjectId
+            );
+            if (object) {
+                director.effectCollection.add(new HighlightObjectEffect(object));
+            }
+        }
+
+        if (action.type === "detected-objects") {
+            director.movingState.setObjects(
+                action.coordinates.map((c) => ({ coordinate: c }))
+            );
+        }
+    }
+};

@@ -1,46 +1,32 @@
+import { ActionMessageHandler, NiceActionMessage } from "nice-common";
 import { createContext, useMemo } from "react";
-import { NiceActionMessage } from "../model/shared/messageContracts";
 
-interface ISocketContext {
-  socket: WebSocket;
+interface IActionConnectionContext {
   sendMessage(message: NiceActionMessage): void;
 }
 
-export const ActionConnectionContext = createContext<ISocketContext>(
-  (null as unknown) as ISocketContext
+export const ActionConnectionContext = createContext<IActionConnectionContext>(
+  (null as unknown) as IActionConnectionContext
 );
 
-export const ActionConnectionProvider: React.FunctionComponent = (props) => {
-  const socket = useMemo(() => {
-    const createdSocket = new WebSocket("ws://localhost:8080");
-    createdSocket.addEventListener("open", () => {
-      console.log("SOCKET: open");
-    });
-    createdSocket.addEventListener("close", () => {
-      console.log("SOCKET: close");
-    });
-    createdSocket.addEventListener("error", () => {
-      console.log("SOCKET: error");
-    });
-    createdSocket.addEventListener("message", (x) => {
-      console.log("SOCKET: message", x.data);
-    });
+interface IActionConnectionProviderProps {
+  messageHandler: ActionMessageHandler;
+}
 
-    return createdSocket;
-  }, []);
+export const ActionConnectionProvider: React.FunctionComponent<IActionConnectionProviderProps> = (
+  props
+) => {
+  const { messageHandler } = props;
 
-  console.log("Setting context: " + socket);
-
-  const socketContext = useMemo((): ISocketContext => {
-    const sendMessage = (message: NiceActionMessage) => {
-      socket.send(JSON.stringify(message));
+  const socketContext = useMemo((): IActionConnectionContext => {
+    const sendMessage = async (message: NiceActionMessage) => {
+      messageHandler(message);
     };
 
     return {
-      socket,
       sendMessage,
     };
-  }, [socket]);
+  }, [messageHandler]);
 
   return (
     <ActionConnectionContext.Provider value={socketContext}>

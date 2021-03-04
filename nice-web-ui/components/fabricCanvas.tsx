@@ -1,4 +1,5 @@
 import React, { useCallback, useContext, useEffect, useRef } from "react";
+import { useResizeDetector } from "react-resize-detector";
 import { FabricContext } from "../context/fabricContext";
 
 interface IFabricCanvasProps {}
@@ -6,21 +7,28 @@ interface IFabricCanvasProps {}
 export const FabricCanvas: React.FunctionComponent<IFabricCanvasProps> = () => {
   const canvasEl = useRef(null);
   const { canvas, initCanvas, setActiveObject } = useContext(FabricContext);
+  const {
+    width,
+    height,
+    ref: containerRef,
+  } = useResizeDetector<HTMLDivElement>();
 
   useEffect(() => {
-    initCanvas(canvasEl.current);
+    const currentElement = canvasEl.current;
+    if (currentElement === null) {
+      return;
+    }
+
+    initCanvas(currentElement);
   }, [canvasEl, initCanvas]);
 
-  const updateActiveObject = useCallback(
-    (e) => {
-      if (!e) {
-        return;
-      }
-      setActiveObject(canvas.getActiveObject());
-      canvas.renderAll();
-    },
-    [canvas, setActiveObject]
-  );
+  const updateActiveObject = useCallback(() => {
+    if (!canvas) {
+      return;
+    }
+    setActiveObject(canvas.getActiveObject());
+    canvas.renderAll();
+  }, [canvas, setActiveObject]);
 
   useEffect(() => {
     if (!canvas) {
@@ -37,5 +45,22 @@ export const FabricCanvas: React.FunctionComponent<IFabricCanvasProps> = () => {
     };
   }, [canvas, updateActiveObject]);
 
-  return <canvas ref={canvasEl} id="fabric-canvas" width={1024} height={768} />;
+  useEffect(() => {
+    if (!canvas || width === undefined || height === undefined) {
+      return;
+    }
+
+    canvas.setDimensions({
+      width: width,
+      height: height,
+    });
+  }, [canvas, width, height]);
+
+  return (
+    <div ref={containerRef} style={wrapperStyle}>
+      <canvas ref={canvasEl} id="fabric-canvas" />
+    </div>
+  );
 };
+
+const wrapperStyle = { width: "100%", height: "100%" };

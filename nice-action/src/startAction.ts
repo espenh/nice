@@ -1,6 +1,6 @@
 import {
     ActionDirector,
-    HighlightObjectEffect,
+    getActionDirectorMessageHandler,
     NiceActionMessage,
     staticLedMappingResult
 } from "nice-common";
@@ -19,33 +19,13 @@ async function run() {
             () => performance.now()
         );
 
+        const actionHandler = getActionDirectorMessageHandler(director);
+
         wss.on("connection", function connection(ws) {
             ws.on("message", function incoming(message) {
                 const action = tryParse(message.toString());
-                // TODO - Move this message handling out of this websocket wire-up.
                 if (action) {
-                    if (action.type === "placed-object") {
-                        director.placeObject(action.object);
-                    }
-
-                    if (action.type === "placed-object-deleted") {
-                        director.removePlacedObject(action.objectId);
-                    }
-
-                    if (action.type === "trigger-effect") {
-                        const object = director.objectState.getObject(
-                            action.targetObjectId
-                        );
-                        if (object) {
-                            director.effectCollection.add(new HighlightObjectEffect(object));
-                        }
-                    }
-
-                    if (action.type === "detected-objects") {
-                        director.movingState.setObjects(
-                            action.coordinates.map((c) => ({ coordinate: c }))
-                        );
-                    }
+                    actionHandler(action);
                 } else {
                     console.log("Received non-action: %s", message);
                 }

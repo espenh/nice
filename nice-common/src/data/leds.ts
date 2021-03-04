@@ -1,3 +1,5 @@
+import { ILedStatus } from "../domainContracts";
+
 // TODO - Load from latest mapping result (json).
 export const staticLedMappingResult = {
     foundLeds: [
@@ -2804,3 +2806,5 @@ export const staticLedMappingResult = {
     ],
     unknownIndexes: [],
 };
+
+export const staticLedStatus: ILedStatus = { leds: staticLedMappingResult.foundLeds };

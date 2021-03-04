@@ -1,5 +1,4 @@
-import { Box } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
+import { createStyles, fade, makeStyles, Theme } from "@material-ui/core";
 import React, { useState } from "react";
 import { useEditorHotkeys } from "../hooks/useEditorHotkeys";
 import { useEditorObjectState } from "../hooks/useEditorObjectState";
@@ -11,45 +10,35 @@ import { DrawToolbar } from "./toolbar";
 
 export const NiceEditor: React.FunctionComponent = () => {
   const [mode, setMode] = useState<DrawMode>(DrawMode.Normal);
+  const classes = useStyles();
+
   useEditorHotkeys();
   useEditorObjectState();
 
   return (
-    <Box className="app">
-      <Box m={1}>
+    <div className={classes.toolsAndSurface}>
+      <div className={classes.toolbar}>
         <ObjectProperties />
         <DrawToolbar mode={mode} setMode={setMode} />
-      </Box>
-      <Box m={1}>
-        <Paper>
-          <EditorSurface mode={mode} leds={mappingResult.foundLeds} />
-        </Paper>
-      </Box>
-
-      <style jsx global>{`
-        canvas {
-          //transform: scale(0.5);
-          //transform-origin: 0 0;
-          width: 100%;
-          height: 100%;
-        }
-
-        .app {
-          width: 100%;
-          height: 100%;
-          display: grid;
-          grid-template-rows: auto 1fr;
-        }
-
-        .app > * {
-          min-width: 0;
-        }
-
-        .canvas-wrapper {
-          width: 100%;
-          height: 100%;
-        }
-      `}</style>
-    </Box>
+      </div>
+      <EditorSurface mode={mode} leds={mappingResult.foundLeds} />
+    </div>
   );
 };
+
+const useStyles = makeStyles<Theme>((theme) =>
+  createStyles({
+    toolbar: {
+      position: "fixed",
+      backgroundColor: fade(theme.palette.grey[600], 0.2),
+      backdropFilter: "blur(10px)",
+      padding: theme.spacing(1),
+      zIndex: 1,
+    },
+    toolsAndSurface: {
+      height: "100%",
+      width: "100%",
+      position: "relative",
+    },
+  })
+);
