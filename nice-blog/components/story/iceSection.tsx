@@ -1,5 +1,6 @@
+import _ from "lodash";
 import React from "react";
-import { ImageContainer } from "./general/imageContainer";
+import { ImageContainer, ImageSetContainer } from "./general/imageContainer";
 import { SectionHeader } from "./general/sectionHeader";
 
 export const IceSection: React.FunctionComponent = () => {
@@ -11,6 +12,7 @@ export const IceSection: React.FunctionComponent = () => {
         ipsa accusantium ab porro iure a aspernatur, in vero ipsam quis saepe
         minus odit, magni ullam. Quis vero aperiam laboriosam!
       </p>
+      <ImageSetContainer imgUrls={["PXL_20210218_182345934.MP.jpg", "PXL_20210218_182345934.MP.jpg", "PXL_20210218_182345934.MP.jpg", "PXL_20210218_182345934.MP.jpg", "PXL_20210218_182345934.MP.jpg", "PXL_20210218_182345934.MP.jpg"]} />
       <ImageContainer imgUrl="PXL_20210218_182345934.MP.jpg" />
     </section>
   );
