@@ -1,4 +1,11 @@
-import { createStyles, GridList, GridListTile, makeStyles, Theme } from "@material-ui/core";
+import {
+  createStyles,
+  GridList,
+  GridListTile,
+  makeStyles,
+  Theme,
+} from "@material-ui/core";
+import Paper from "@material-ui/core/Paper";
 import React from "react";
 
 interface IImageContainerProps {
@@ -8,11 +15,20 @@ interface IImageContainerProps {
 
 const storyImagePath = "story/images";
 
-export const ImageContainer: React.FunctionComponent<IImageContainerProps> = (
+export const SingleImageContainer: React.FunctionComponent<IImageContainerProps> = (
   props
 ) => {
   const { imgUrl } = props;
-  return <img src={`${storyImagePath}/${imgUrl}`} />;
+  const classes = useStyles();
+
+  return (
+    <Paper className={classes.root} variant="elevation" elevation={0}>
+      <img
+        src={`${storyImagePath}/${imgUrl}`}
+        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
+    </Paper>
+  );
 };
 
 interface IImageSetContainerProps {
@@ -20,33 +36,40 @@ interface IImageSetContainerProps {
   imgUrls: string[];
 }
 
-export const ImageSetContainer: React.FunctionComponent<IImageSetContainerProps> = (
+export const MultiImageContainer: React.FunctionComponent<IImageSetContainerProps> = (
   props
 ) => {
   const { imgUrls } = props;
   const classes = useStyles();
 
-  return <GridList cellHeight={160} className={classes.gridList} cols={3}>
-    {imgUrls.map((imgUrl) => (
-      <GridListTile key={imgUrl} cols={3 || 1}>
-        <img src={`${storyImagePath}/${imgUrl}`} />
-      </GridListTile>
-    ))}
-  </GridList>;
+  return (
+    <Paper className={classes.root} variant="elevation" elevation={0}>
+      <GridList cellHeight={200} cols={imgUrls.length}>
+        {imgUrls.map((imgUrl) => (
+          <GridListTile key={imgUrl} cols={1}>
+            <img
+              src={`${storyImagePath}/${imgUrl}`}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+              }}
+            />
+          </GridListTile>
+        ))}
+      </GridList>
+    </Paper>
+  );
 };
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
-      display: 'flex',
-      flexWrap: 'wrap',
-      justifyContent: 'space-around',
-      overflow: 'hidden',
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-around",
+      overflow: "hidden",
       backgroundColor: theme.palette.background.paper,
     },
-    gridList: {
-      width: 500,
-      height: 450,
-    },
-  }),
+  })
 );

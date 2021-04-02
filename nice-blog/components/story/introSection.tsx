@@ -1,11 +1,10 @@
 import React from "react";
-import { SectionHeader } from "./general/sectionHeader";
+import { StoryParagraph } from "./general/storyParagraph";
 
 export const IntroSection: React.FunctionComponent = () => {
   return (
     <section>
-      <SectionHeader>Intro</SectionHeader>
-      <p>Intro intro intro</p>
+      <StoryParagraph>Intro intro intro</StoryParagraph>
     </section>
   );
 };
