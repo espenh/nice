@@ -6,7 +6,10 @@ export const CodeInfoSection: React.FunctionComponent = () => {
   return (
     <section>
       <SectionHeader>Code</SectionHeader>
-      <StoryParagraph>GitHub etc.</StoryParagraph>
+      <StoryParagraph>
+        All the code this project is available on
+        <a href="https://github.com/espenh/nice">GitHub</a>.
+      </StoryParagraph>
     </section>
   );
 };

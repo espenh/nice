@@ -4,7 +4,7 @@ import { StoryParagraph } from "./general/storyParagraph";
 export const IntroSection: React.FunctionComponent = () => {
   return (
     <section>
-      <StoryParagraph>Intro intro intro</StoryParagraph>
+      <StoryParagraph>Let's put 400 programmable LEDs in some ice.</StoryParagraph>
     </section>
   );
 };

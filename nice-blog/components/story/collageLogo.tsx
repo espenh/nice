@@ -25,7 +25,7 @@ export const CollageLogo: React.FunctionComponent = () => {
           url={"story/images/collagelogo/PXL_20210213_125747126.jpg"}
         />
         <CollageSection
-          url={"story/images/collagelogo/PXL_20210131_094259474.jpg"}
+          url={"story/images/collagelogo/PXL_20210331_114202770.PORTRAIT.jpg"}
         />
         {/*<CollageSection url={"story/images/collagelogo/PXL_20210218_182345934.MP.jpg"} />*/}
         <Box height="100%" minHeight="0" position="relative">

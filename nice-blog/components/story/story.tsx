@@ -21,8 +21,8 @@ export const Story: React.FunctionComponent = () => {
         <CollageLogo />
       </FullWidth>
       <IntroSection />
-      <IceSection />
       <LightsSection />
+      <IceSection />
       <CameraSection />
       <TrackingSection />
       <NextSeasonSection />
