@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo, useRef } from "react";
-import Tweakpane from "tweakpane";
+import { Pane } from "tweakpane";
 import { ActionConnectionContext } from "../contexts/actionConnectionContext";
 import { FabricContext } from "../contexts/fabricContext";
 
@@ -13,7 +13,7 @@ export const ObjectProperties: React.FunctionComponent = () => {
 
     if (container) {
       console.log("CONOAINOAEI");
-      const pane = new Tweakpane({ expanded: true, container: container });
+      const pane = new Pane({ expanded: true, container: container });
       return pane;
     }
   }, [containerRef]);

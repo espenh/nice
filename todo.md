@@ -37,3 +37,9 @@ Feels like there's lot's of potential for different game modes here.
 - Virtual puck. Probably very difficult to do accurately, but could be a fun experiment. Maybe it could be a coarse rocket league type interaction with a huge puck. Collision hazard with one puck? Could have a puck for each team.
 - Momentum effects. Track skaters and create effects for movement that create a certain g-force. Example: Stopping abtruptly or quickly changing direction could create a short-lived orange "wave" in the original direction.
 -
+
+## Blog
+
+- Light manipulation reveals colors. Pull down exposure, up saturation?
+- Section
+  - Tracking and detection.

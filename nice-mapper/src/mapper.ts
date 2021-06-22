@@ -1,27 +1,11 @@
+import * as chalk from "chalk";
+import dayjs from "dayjs";
 import * as fs from "fs";
 import * as _ from "lodash";
-import { DateTime } from "luxon";
 import { CameraApiClient } from "./cameraApiClient";
 import { LightsApiClient } from "./lightsApiClient";
-import { jsonLog } from "./utils";
-import * as chalk from "chalk";
 
 console.log("nice-mapper started");
-
-async function runTest() {
-    const lights = new LightsApiClient("http://localhost:8001");
-    const camera = new CameraApiClient("http://localhost:8000");
-
-    await lights.reset();
-    await camera.setBaseline();
-
-    jsonLog("Capturing before");
-    jsonLog(await camera.captureRgb());
-    console.log("Turning on")
-    await lights.turnOnLightRgb({ redIndex: 200, greenIndex: 202, blueIndex: 204 });
-    jsonLog("Capturing after");
-    jsonLog(await camera.captureRgb());
-}
 
 interface ILedAnd2DPosition {
     index: number;
@@ -111,7 +95,7 @@ async function runMapping() {
 async function run() {
     try {
         const mapping = await runMapping();
-        const timestamp = DateTime.utc().toFormat("yyyy-MM-dd_HHmmss");
+        const timestamp = dayjs().format("yyyy-MM-dd_HHmmss");
         fs.writeFileSync(`${`./mapping_` + timestamp}_baseline.jpg`, mapping.baseLine, { encoding: 'base64' });
         fs.writeFileSync(`${`./mapping_` + timestamp}_result.json`, JSON.stringify(mapping.result, null, 2));
 

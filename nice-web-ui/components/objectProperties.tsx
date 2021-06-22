@@ -1,5 +1,5 @@
 import { useContext, useEffect, useMemo } from "react";
-import Tweakpane from "tweakpane";
+import { Pane } from "tweakpane";
 import { ActionConnectionContext } from "../context/actionConnectionContext";
 import { FabricContext } from "../context/fabricContext";
 
@@ -8,7 +8,7 @@ export const ObjectProperties: React.FunctionComponent = () => {
   const { sendMessage } = useContext(ActionConnectionContext);
 
   const pane = useMemo(() => {
-    const pane = new Tweakpane({ expanded: true });
+    const pane = new Pane({ expanded: true });
     return pane;
   }, []);
 
@@ -22,10 +22,10 @@ export const ObjectProperties: React.FunctionComponent = () => {
     };
 
     const color = pane.addInput(objectParams, "color", { label: "Color" });
-    color.on("change", (newColor: string) => {
+    color.on("change", (newColor) => {
       const activeObjects = canvas.getActiveObjects();
       for (const object of activeObjects) {
-        object.set("fill", newColor);
+        object.set("fill", newColor.value);
       }
       canvas.renderAll();
 
