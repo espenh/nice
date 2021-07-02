@@ -1,3 +1,4 @@
+import { CreateOutlined } from "@material-ui/icons";
 import { fabric } from "fabric";
 import { ICoordinate } from "nice-common";
 import React, { useContext, useEffect } from "react";
@@ -71,10 +72,15 @@ export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
 
     canvas.add(...ledDots);
 
-    setTimeout(() => {
-      //canvas.zoomToPoint({ x: 1457, y: 446 } as any, 0.333);
-      //canvas.zoomToPoint({ x: -1491, y: -602 } as any, 1 - 0.333);
-    }, 1000);
+    //canvas.on("after:render", (e) => {
+    const line = createLine(1120, 273.37, 65);
+    line.angle = 68.6;
+    line.width = 460;
+    canvas.add(line);
+    //canvas.renderAll();
+    canvas.setActiveObject(line);
+    canvas.zoomToPoint({ x: -330, y: -10 } as any, 1 - 0.68);
+    //});
 
     canvas.on("mouse:down", (e) => {
       if (e.target?.data?.type === "led") {
@@ -92,6 +98,25 @@ export const EditorSurface: React.FunctionComponent<IEditorSurfaceProps> = (
   return <FabricCanvas />;
 };
 
+function createLine(x: number, y: number, height: number) {
+  const halfHeight = height / 2;
+
+  const line = new fabric.Rect({
+    left: x,
+    top: y + halfHeight,
+    height: height,
+    width: 1,
+    fill: "#0094FF",
+    data: { id: v4() },
+    strokeWidth: 0,
+    opacity: 0.7,
+    //originX: "center",
+    originY: "center",
+  });
+
+  return line;
+}
+
 function wireUpEvents(
   canvas: fabric.Canvas,
   stateBag: any,
@@ -105,24 +130,13 @@ function wireUpEvents(
 
   canvas.on("mouse:down", function (opt) {
     const evt = opt.e as MouseEvent;
+
     if (editMode === DrawMode.Drawing) {
       stateBag.isDown = true;
       const pointer = canvas.getPointer(evt);
       const height = 60;
-      const halfHeight = height / 2;
-      const line = new fabric.Rect({
-        left: pointer.x,
-        top: pointer.y + halfHeight,
-        height: height,
-        width: 1,
-        fill: "#0094FF",
-        data: { id: v4() },
-        strokeWidth: 0,
-        opacity: 0.7,
-        //originX: "center",
-        originY: "center",
-      });
 
+      const line = createLine(pointer.x, pointer.y, height);
       canvas.add(line);
 
       stateBag.line = line;

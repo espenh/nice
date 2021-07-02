@@ -58,28 +58,7 @@ export const IceSection: React.FunctionComponent = () => {
           />
         </Grid>
       </Grid>
-      <Grid container spacing={3}>
-        <Grid item={true} xs={8}>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="100%"
-            height="100%"
-            viewBox="0 0 300 24"
-          >
-            <text textLength="290" lengthAdjust="spacing" x="5" y="14">
-              WATER + COLD
-            </text>
-          </svg>
-        </Grid>
-        <Grid item={true} xs={4}>
-          <MultiImageContainer
-            imgUrls={[
-              "PXL_20210205_185253335.NIGHT.jpg",
-              "PXL_20210205_185319589.NIGHT.jpg",
-            ]}
-          />
-        </Grid>
-      </Grid>
+
       <StoryParagraph>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Aut nobis,
         provident alias cum numquam nam. Blanditiis hic voluptatibus, dolores

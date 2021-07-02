@@ -45,8 +45,13 @@ export const VirtualIceEditor: React.FunctionComponent = () => {
     <ActionConnectionProvider messageHandler={actionHandler}>
       <FabricContextProvider>
         <Container>
-          <Box width={1024} height={400} className={classes.editorAndIce}>
-            <Paper square={true} elevation={4}>
+          <Box
+            width={"100%"}
+            height={"100%"}
+            className={classes.editorAndIce}
+            alignContent="center"
+          >
+            <Paper square={true} elevation={4} style={{ minWidth: 0 }}>
               <NiceEditor />
             </Paper>
             <Paper square={true} elevation={4}>
@@ -67,8 +72,10 @@ const useStyles = makeStyles<Theme>((theme) =>
     editorAndIce: {
       display: "grid",
       gridTemplateColumns: `1fr 1fr`,
+      gridAutoRows: "1fr",
       gap: theme.spacing(1),
       padding: theme.spacing(1),
+      minHeight: "400px",
       //backgroundColor: theme.palette.grey[600],
     },
   })

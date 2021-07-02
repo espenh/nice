@@ -16,7 +16,6 @@ import { VideoLogo } from "./videoLogo";
 export const Story: React.FunctionComponent = () => {
   return (
     <main>
-      <Logo />
       <FullWidth>
         <CollageLogo />
       </FullWidth>

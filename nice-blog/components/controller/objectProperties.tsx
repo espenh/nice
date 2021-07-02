@@ -12,11 +12,10 @@ export const ObjectProperties: React.FunctionComponent = () => {
     const container = containerRef.current;
 
     if (container) {
-      console.log("CONOAINOAEI");
       const pane = new Pane({ expanded: true, container: container });
       return pane;
     }
-  }, [containerRef]);
+  }, [containerRef.current]);
 
   useEffect(() => {
     if (!canvas || !pane) {
@@ -27,7 +26,11 @@ export const ObjectProperties: React.FunctionComponent = () => {
       color: "#0f0",
     };
 
-    const color = pane.addInput(objectParams, "color", { label: "Color" });
+    const color = pane.addInput(objectParams, "color", {
+      label: "Color",
+      picker: "popup",
+    });
+
     color.on("change", (newColor) => {
       const activeObjects = canvas.getActiveObjects();
       for (const object of activeObjects) {
@@ -65,15 +68,5 @@ export const ObjectProperties: React.FunctionComponent = () => {
     });
   }, [canvas, pane]);
 
-  return (
-    <div
-      ref={containerRef}
-      style={{
-        position: "absolute",
-        display: "flex",
-        minWidth: 1,
-        minHeight: 1,
-      }}
-    ></div>
-  );
+  return <div ref={containerRef}></div>;
 };

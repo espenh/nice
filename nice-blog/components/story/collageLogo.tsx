@@ -1,9 +1,7 @@
-import { Typography, useTheme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 import React from "react";
 
 export const CollageLogo: React.FunctionComponent = () => {
-  const theme = useTheme();
   return (
     <Box position="relative">
       <Box
@@ -27,7 +25,6 @@ export const CollageLogo: React.FunctionComponent = () => {
         <CollageSection
           url={"story/images/collagelogo/PXL_20210331_114202770.PORTRAIT.jpg"}
         />
-        {/*<CollageSection url={"story/images/collagelogo/PXL_20210218_182345934.MP.jpg"} />*/}
         <Box height="100%" minHeight="0" position="relative">
           <video
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -38,9 +35,6 @@ export const CollageLogo: React.FunctionComponent = () => {
             src="/story/test_short_1_medium.mp4"
           />
         </Box>
-      </Box>
-      <Box position="absolute" bottom="0">
-        <Typography style={{ fontSize: "15rem", color: "white" }}>nice</Typography>
       </Box>
     </Box>
   );

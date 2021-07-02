@@ -17,8 +17,10 @@ export const NiceEditor: React.FunctionComponent = () => {
 
   return (
     <div className={classes.toolsAndSurface}>
-      <div className={classes.toolbar}>
+      <div className={classes.propertiesContainer}>
         <ObjectProperties />
+      </div>
+      <div className={classes.toolbar}>
         <DrawToolbar mode={mode} setMode={setMode} />
       </div>
       <EditorSurface mode={mode} leds={staticLedMappingResult.foundLeds} />
@@ -39,6 +41,12 @@ const useStyles = makeStyles<Theme>((theme) =>
       height: "100%",
       width: "100%",
       position: "relative",
+    },
+    propertiesContainer: {
+      zIndex: 1000,
+      position: "absolute",
+      bottom: 0,
+      right: 0,
     },
   })
 );
