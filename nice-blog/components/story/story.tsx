@@ -1,4 +1,4 @@
-import { useTheme } from "@material-ui/core";
+import { Typography, useTheme } from "@material-ui/core";
 import Box from "@material-ui/core/Box";
 
 import type React from "react";
@@ -16,9 +16,8 @@ import { VideoLogo } from "./videoLogo";
 export const Story: React.FunctionComponent = () => {
   return (
     <main>
-      <FullWidth>
-        <CollageLogo />
-      </FullWidth>
+      <Typography variant="h1">Nice</Typography>
+      <CollageLogo />
       <IntroSection />
       <LightsSection />
       <IceSection />

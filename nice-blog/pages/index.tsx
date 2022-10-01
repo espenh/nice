@@ -6,15 +6,17 @@ import { Story } from "../components/story/story";
 export default function Home() {
   const classes = useStyles();
   return (
-    <div className={classes.outside}>
-      <Container className={classes.inside}>
-        <Head>
-          <title>nice-blog</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Story />
-      </Container>
-    </div>
+    <>
+      <Head>
+        <title>nice-blog</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className={classes.outside}>
+        <Container className={classes.inside}>
+          <Story />
+        </Container>
+      </div>
+    </>
   );
 }
 
