@@ -1,2 +1,15 @@
-
-export * from './lib/nice-web-components';
+export * from "./contexts/actionConnectionContext";
+export * from "./contexts/fabricContext";
+export * from "./controller/editorSurface";
+export * from "./controller/fabricCanvas";
+export * from "./controller/fillingBox";
+export * from "./controller/niceEditor";
+export * from "./controller/objectProperties";
+export * from "./controller/toolbar";
+export * from "./controller/virtualIce";
+export * from "./controller/virtualIceEditor";
+export * from "./hooks/useActionConnection";
+export * from "./hooks/useAnimationFrame";
+export * from "./hooks/useEditorHotkeys";
+export * from "./hooks/useEditorObjectState";
+export * from "./models/drawContracts";

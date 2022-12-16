@@ -1,6 +1,6 @@
+import { VirtualIceEditor } from "@nice/nice-web-components";
 import React from "react";
 import ReactPlayer from "react-player";
-import { VirtualIceEditor } from "../controller/virtualIceEditor";
 import { MultiImageContainer } from "./general/imageContainer";
 import { SectionHeader } from "./general/sectionHeader";
 import { StoryBlock } from "./general/storyBlock";

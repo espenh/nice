@@ -1,7 +1,7 @@
 import Grid from "@mui/material/Grid";
+import { VirtualIceEditor } from "@nice/nice-web-components";
 import React from "react";
 import ReactPlayer from "react-player";
-import { VirtualIceEditor } from "../controller/virtualIceEditor";
 import { Degrees } from "./general/degrees";
 import { MultiImageContainer } from "./general/imageContainer";
 import { SectionHeader } from "./general/sectionHeader";

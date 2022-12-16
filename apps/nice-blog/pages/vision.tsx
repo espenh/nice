@@ -1,6 +1,6 @@
 import React, { PropsWithChildren, useMemo, useRef } from "react";
-import { useAnimationTimer } from "../hooks/useAnimationFrame";
 import { useOpenCv } from "../hooks/useOpencv";
+import { useAnimationTimer } from "@nice/nice-web-components";
 
 export default function Vision() {
   return (
