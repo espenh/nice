@@ -1,5 +1,5 @@
 import * as _ from "lodash";
-import { ColorsByIndex, delay, ILedInfo, ILightsClient } from "@nice/nice-common-delete";
+import { ColorsByIndex, delay, ILedInfo, ILightsClient } from "@nice/nice-common";
 import fetch from "node-fetch";
 
 

@@ -16,19 +16,13 @@
     "baseUrl": ".",
     "paths": {
       "@nice/nice-common": [
-        "packages/nice-common/src/index.ts"
-      ],
-      "@nice/nice-common-delete": [
-        "libs/nice-common-delete/src/index.ts"
+        "libs/nice-common/src/index.ts"
       ],
       "@nice/nice-common-node": [
         "libs/nice-common-node/src/index.ts"
       ],
-      "@nice/nice-shared-node": [
-        "packages/nice-shared-node/src/index.ts"
-      ],
       "@nice/nice-web-components": [
-        "packages/nice-web-components/src/index.ts"
+        "libs/nice-web-components/src/index.ts"
       ]
     }
   },
