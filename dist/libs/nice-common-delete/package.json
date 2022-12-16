@@ -1,0 +1,11 @@
+{
+  "name": "@nice/nice-common-delete",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {},
+  "peerDependencies": {
+    "tslib": "2.4.1"
+  }
+}

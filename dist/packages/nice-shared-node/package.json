@@ -1,0 +1,15 @@
+{
+  "name": "@nice/nice-shared-node",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "main": "./src/index.js",
+  "types": "./src/index.d.ts",
+  "dependencies": {},
+  "peerDependencies": {
+    "lodash": "4.17.21",
+    "@nice/nice-common": "0.0.1",
+    "color": "4.2.3",
+    "node-fetch": "3.3.0",
+    "tslib": "2.4.1"
+  }
+}

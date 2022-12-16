@@ -67,3 +67,6 @@ typings/
 lib/
 tsconfig.tsbuildinfo
 .yarn/
+
+# Next.js
+.next

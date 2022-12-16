@@ -1,0 +1,14 @@
+{
+    "private": true,
+    "workspaces": [
+        "nice-action",
+        "nice-mapper",
+        "nice-common",
+        "nice-web-ui",
+        "nice-blog"
+    ],
+    "scripts": {
+        "build": "tsc -b",
+        "clean:build": "rimraf packages/**/lib **/tsconfig.tsbuildinfo"
+    }
+}
