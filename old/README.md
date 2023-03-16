@@ -1,9 +1,10 @@
-# Nice
+# Legacy code here
 
-## Mapping leds in 2d space
+This folder contains code that hasn't been transitioned over to the new project structure.
 
-```bash
-nice-camera/src/uvicorn main:app  --port 8000
-nice-lights/src/uvicorn main:app  --port 8001
-nice-mapping/yarn map-lights
-```
+## TODO
+
+Move over the last bit of code from:
+
+- nice-camera
+- nice-lights

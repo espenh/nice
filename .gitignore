@@ -70,3 +70,7 @@ tsconfig.tsbuildinfo
 
 # Next.js
 .next
+
+# Compiled output
+/dist
+/tmp
