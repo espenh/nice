@@ -74,3 +74,7 @@ tsconfig.tsbuildinfo
 # Compiled output
 /dist
 /tmp
+
+**/__pycache__
+**/.mypy_cache
+*.pyc
