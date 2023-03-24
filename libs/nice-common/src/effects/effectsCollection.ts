@@ -2,7 +2,6 @@ import * as _ from "lodash";
 import { ColorsByIndex } from "../domainContracts";
 import { IEffect, IEffectProps } from "./effectContracts";
 
-
 export class EffectsCollection {
     private effects: IEffect[] = [];
 
