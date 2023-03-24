@@ -14,7 +14,6 @@ export default function Home() {
       <Box
         sx={{
           backgroundColor: (theme) => theme.palette.background.default,
-          //backgroundImage: "url(test1.jpg)",
           background: (theme) =>
             `linear-gradient(180deg, transparent, ${
               theme.palette.mode === "light"

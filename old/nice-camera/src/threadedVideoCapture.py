@@ -3,7 +3,6 @@ import queue
 import threading
 import time
 
-
 class ThreadedVideoCapture:
     def __init__(self, name):
         self.cap = cv2.VideoCapture(name, cv2.CAP_FFMPEG)

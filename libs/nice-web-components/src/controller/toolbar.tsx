@@ -18,7 +18,7 @@ export const DrawToolbar: React.FunctionComponent<IDrawToolbarProps> = (
     _event: React.MouseEvent<HTMLElement>,
     newMode: DrawMode | null
   ) => {
-    if (!newMode) return;
+    if (newMode === null) return;
     props.setMode(newMode);
   };
 

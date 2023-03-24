@@ -1,7 +1,6 @@
 import cv2
 import time
 import base64
-
 from .fresh_frame import FreshestFrame
 
 
