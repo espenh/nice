@@ -10,7 +10,7 @@
 
 ## LEDs in ice
 
-The Twinkly leds are addressable by index on the wire, so if you have the 400-LED version you can assign red to index 0, green to index 1, all the way up to index 399. To enable more interesting things, we need to map the LEDs into 2d space so we can take a point from the camera frame and figure out which leds are on or close to that point. This mapping is done in [nice-mapper](/apps/nice-mapper/), and the process is pretty simple:
+The LEDs are addressable by index on the wire, so if you have the 400-LED version you can assign red to index 0, green to index 1, all the way up to index 399. To enable more interesting things, we need to map the LEDs into 2d space so we can take a point from the camera frame and figure out which leds are on or close to that point. This mapping is done in [nice-mapper](/apps/nice-mapper/), and the process is pretty simple:
 
 - Turn off the LEDs.
 - Light up 3 random LEDs in easy to map colors, [a=red], [b=green] and [c=blue].
@@ -18,15 +18,11 @@ The Twinkly leds are addressable by index on the wire, so if you have the 400-LE
 - Find the glowing LEDs in the frame and assign their on-ice coordinates.
 - Continue until all leds are mapped.
 
-<p>
-    <div style="display: grid; grid-template-columns: 1fr 1fr 1fr;">
-        <figure><img src="docs/images/readme/nice_mapping_rgb_floor.webp"/><figcaption align="center">Mapping LEDs on the office floor.</figcaption></figure>
-        <figure><img src="docs/images/readme/nice_mapping_rgb_ice.webp"/><figcaption align="center">Slightly blurry frame from camera positioned over the ice.</figcaption></figure>
-        <figure><img src="docs/images/readme/nice_led_mapping_terminal.webp"/><figcaption align="center">Assigning LED on-ice 2d coordinates based on camera frame.</figcaption></figure>
-    </div>
-</p>
+![nice image header](/docs/images/readme/nice_mapping_process.webp)
 
-This is a probably a very basic version of what Twinkly use in their led mapping, where they also support mapping the leds in 3d as you pan around your Christmas tree.
+Here you can see mapping of LEDs on the office floor, then on a blurry frame from camera positioned over the ice, and lastly the terminal showing the assigned on-ice 2d coordinates
+
+This mapping approach is a probably a very basic version of what [Twinkly](https://twinkly.com/) use in their led mapping, where they also support mapping the leds in 3d as you pan around your Christmas tree.
 
 ## Ice editor
 
@@ -125,3 +121,4 @@ Things for the next season.
 - Implement IR approach to blob tracking.
 - Enable simulating people and objects in the ice simulator. Like drawing in photoshop, except the pointer would be acting as a person gliding over the ice.
 - Scriptable virtual ice objects. Example: A virtual hockey goal that explodes (light shoots out in all directions) when an object (puck) intersects with the goal rectangle.
+- Clean up this repository. Remove all the legacy light and camera code.
