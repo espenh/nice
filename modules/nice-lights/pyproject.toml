@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "nice-lights"
+version = "0.1.0"
+description = ""
+authors = ["Espen Halvorsen <espen.halvorsen@gmail.com>"]
+readme = "README.md"
+packages = [{include = "nice_lights"}]
+
+[tool.poetry.dependencies]
+python = ">=3.10,<3.11"
+xled = "^0.7.0"
+
+
+[tool.poetry.group.dev.dependencies]
+ipykernel = "^6.19.2"
+black = {version = "^22.12.0", allow-prereleases = true}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

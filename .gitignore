@@ -67,3 +67,14 @@ typings/
 lib/
 tsconfig.tsbuildinfo
 .yarn/
+
+# Next.js
+.next
+
+# Compiled output
+/dist
+/tmp
+
+**/__pycache__
+**/.mypy_cache
+*.pyc

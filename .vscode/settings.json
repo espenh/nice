@@ -1,20 +1,4 @@
 {
-    "files.exclude": {
-      "**/node_modules": true,
-      "**/tsconfig.tsbuildinfo": true,
-      "**/lib": true,
-      "**/*.js": {
-        "when": "$(basename).ts"
-      },
-      "**/*.js.map": true
-    },
-    "search.exclude": {
-      "**/*.js": {
-        "when": "$(basename).ts"
-      }
-    },
-    "typescript.tsdk": "node_modules\\typescript\\lib",
-    "files.autoSave": "off",
-    "debug.allowBreakpointsEverywhere": true
+    "jest.autoRun": "off"
   }
   
