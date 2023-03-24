@@ -114,10 +114,6 @@ Like all(?) IP cameras, the latency is depressing. I tried different configs and
 
 The code for the camera, both streaming object detection mode and the rgb mode, is [here](/old/nice-camera/src).
 
-## Documentation
-
-Ideas for docs are [here](/docs/devnotes.md).
-
 ## Future
 
 Things for the next season.
